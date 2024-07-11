@@ -22,13 +22,13 @@ export interface User extends Document {
   email: string;
   password: string;
   verifyCode: string;
-  verifyCodeExpiry: Date; 
+  verifyCodeExpiry: Date;
   isVerified: boolean;
   isAcceptingMessages: boolean;
   messages: Message[];
 }
 
-// Updated User schema
+// Define User schema
 const UserSchema: Schema<User> = new mongoose.Schema({
   username: {
     type: String,
@@ -65,6 +65,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
   messages: [MessageSchema],
 });
 
+// Ensure UserModel is defined correctly
 const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||
   mongoose.model<User>('User', UserSchema);

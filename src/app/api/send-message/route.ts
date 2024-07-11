@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
     if (!user) {
       return Response.json(
-        { message: 'User not found', success: false },
+        { message: `User Not Found`, success: false },
         { status: 404 }
       );
     }

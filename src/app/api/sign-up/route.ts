@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   try {
     const { username, email, password } = await request.json();
 
+    // Check if username is already taken and verified
     const existingVerifiedUserByUsername = await UserModel.findOne({
       username,
       isVerified: true,
@@ -24,7 +25,9 @@ export async function POST(request: Request) {
       );
     }
 
+    // Check if user exists by email
     const existingUserByEmail = await UserModel.findOne({ email });
+
     let verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     if (existingUserByEmail) {
@@ -37,6 +40,7 @@ export async function POST(request: Request) {
           { status: 400 }
         );
       } else {
+        // Update existing user with new password and verification code
         const hashedPassword = await bcrypt.hash(password, 10);
         existingUserByEmail.password = hashedPassword;
         existingUserByEmail.verifyCode = verifyCode;
@@ -44,6 +48,7 @@ export async function POST(request: Request) {
         await existingUserByEmail.save();
       }
     } else {
+      // Create new user
       const hashedPassword = await bcrypt.hash(password, 10);
       const expiryDate = new Date();
       expiryDate.setHours(expiryDate.getHours() + 1);
@@ -68,7 +73,9 @@ export async function POST(request: Request) {
       username,
       verifyCode
     );
+
     if (!emailResponse.success) {
+      // Handle email sending failure
       return Response.json(
         {
           success: false,
@@ -85,8 +92,10 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
+
   } catch (error) {
     console.error('Error registering user:', error);
+
     return Response.json(
       {
         success: false,
