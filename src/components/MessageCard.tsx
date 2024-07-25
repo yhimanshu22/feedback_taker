@@ -47,7 +47,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
           axiosError.response?.data.message ?? 'Failed to delete message',
         variant: 'destructive',
       });
-    } 
+    }
   };
 
   return (
@@ -63,10 +63,9 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  this message.
+                  This action is irreversible. Deleting this message will permanently remove it.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
